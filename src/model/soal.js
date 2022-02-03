@@ -86,18 +86,19 @@ export default class Soals {
   }
 
   async hapus(_id) {
-    const query = await this.service.findByIdAndDeleteI(_id);
-    if (!query) {
-      throw new Error('Gagal menghapus soal!');
-    }
+    const query = await this.service.findByIdAndDelete(_id);
+    return query;
+  }
+
+  async getAll() {
+    const query = await this.service.find();
+
     return query;
   }
 
   async getById(_id) {
     const query = await this.service.findById(_id);
-    if (!query) {
-      throw new Error('Soal tidak ditemukan!');
-    }
+
     return query;
   }
 }
