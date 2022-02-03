@@ -1,0 +1,103 @@
+import mongoose from 'mongoose';
+
+const soalSchema = new mongoose.Schema({
+  nama: String,
+  butir: [{ soal: String, pilihan: [{ opsi: String }], jawaban: String }],
+  jumlah: Number,
+  diperbarui: Date
+});
+
+const soalService = mongoose.model('soals', soalSchema);
+
+export default class Soals {
+  service = soalService;
+
+  async simpan(nama, jumlah, jumlahOpsi) {
+    const butir = [];
+    const pilihan = [];
+    for (let index = 0; index < jumlahOpsi; index++) {
+      pilihan.push({ opsi: '' });
+    }
+    const objButir = { pilihan, soal: '', jawaban: '' };
+
+    for (let index = 0; index < jumlah; index++) {
+      butir.push(objButir);
+    }
+    const newSoal = new this.service({
+      nama,
+      jumlah,
+      butir,
+      diperbarui: new Date()
+    });
+    const query = await newSoal.save();
+    if (!query) {
+      throw new Error('Gagal menyimpan soal!');
+    }
+    return query;
+  }
+
+  async editButirSoal(_idButirSoal, soal) {
+    const query = await this.service.findOneAndUpdate(
+      { 'butir._id': _idButirSoal },
+      {
+        $set: {
+          'butir.$.soal': soal
+        }
+      },
+      { new: true }
+    );
+
+    return query;
+  }
+
+  async editJawabanSoal(_idButirSoal, jawaban) {
+    const query = await this.service.findOneAndUpdate(
+      { 'butir._id': _idButirSoal },
+      {
+        $set: {
+          'butir.$.jawaban': jawaban
+        }
+      },
+      { new: true }
+    );
+    return query;
+  }
+
+  async editOpsi(_idOpsi, opsi) {
+    const query = await this.service.findOneAndUpdate(
+      { 'butir.pilihan._id': _idOpsi },
+
+      {
+        $set: {
+          'butir.$.pilihan.$[j].opsi': opsi
+        }
+      },
+      {
+        arrayFilters: [
+          {
+            'j._id': {
+              $eq: _idOpsi
+            }
+          }
+        ]
+      }
+    );
+    return query;
+  }
+
+  async hapus(_id) {
+    const query = await this.service.findByIdAndDeleteI(_id);
+    if (!query) {
+      throw new Error('Gagal menghapus soal!');
+    }
+    return query;
+  }
+
+  async getById(_id) {
+    const query = await this.service.findById(_id);
+    if (!query) {
+      throw new Error('Soal tidak ditemukan!');
+    }
+    return query;
+  }
+}
