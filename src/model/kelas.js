@@ -16,8 +16,20 @@ export default class Kelas {
     return query;
   }
 
-  async lihatSemua() {
+  async getAll() {
     const query = await this.service.find();
+
+    return query;
+  }
+
+  async getByNama(nama) {
+    const query = await this.service.findOne({ nama });
+
+    return query;
+  }
+
+  async getById(_id) {
+    const query = await this.service.findById(_id);
 
     return query;
   }

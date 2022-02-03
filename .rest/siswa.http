@@ -1,0 +1,33 @@
+### Get all
+
+GET http://localhost:3660/siswa
+
+### Get byId
+
+GET http://localhost:3660/siswa/61fb9af519a76f2189d3e6dd
+
+### Post
+
+POST http://localhost:3660/siswa
+Content-Type: application/json
+
+{
+    "username": "user2022",
+    "password": "pass2022",
+    "nisn": "nisn2021",
+    "nama": "contoh nama",
+    "kelas": "kelas2021"
+}
+
+#### Edit siswa
+PUT http://localhost:3660/siswa
+Content-Type: application/json
+
+{
+    "_id": "61fb9af519a76f2189d3e6dd",
+    "nama": "Editnama",
+    "kelas": "kelas2021"
+}
+
+### hapus
+DELETE http://localhost:3660/siswa/61fbb05ddacfca0517da896a

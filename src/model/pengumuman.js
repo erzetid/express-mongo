@@ -12,17 +12,19 @@ const pengumumanService = mongoose.model('pengumumans', pengumumanSchema);
 export default class Pengumumans {
   service = pengumumanService;
 
-  async simpan(judul, isi, kelas, diperbarui) {
-    const pengumumanBaru = new this.service(
-      { judul, isi, kelas, diperbarui },
-      { new: true }
-    );
+  async simpan(judul, isi, kelas) {
+    const pengumumanBaru = new this.service({
+      judul,
+      isi,
+      kelas,
+      diperbarui: new Date()
+    });
     const query = await pengumumanBaru.save();
 
     return query;
   }
 
-  async lihatSemua() {
+  async getAll() {
     const query = await this.service.find();
 
     return query;
@@ -45,10 +47,13 @@ export default class Pengumumans {
   }
 
   async getByKelas(kelas) {
-    const query = await this.service.find(
-      { kelas },
-      { $sort: { diperbarui: 'desc' } }
-    );
+    const query = await this.service.find({ kelas }).sort({ diperbarui: -1 });
+
+    return query;
+  }
+
+  async getById(_id) {
+    const query = await this.service.findById(_id);
 
     return query;
   }

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
+  siswa: String,
   username: String,
   password: String,
   role: String
@@ -11,12 +12,12 @@ const userService = mongoose.model('users', userSchema);
 export default class Users {
   service = userService;
 
-  async simpan(username, password, role) {
+  async simpan(siswa, username, password, role) {
     const checkUsername = await this.getUsername(username);
     if (checkUsername) {
       throw new Error('username tidak tersedia!');
     }
-    const userBaru = new this.service({ username, password, role });
+    const userBaru = new this.service({ siswa, username, password, role });
     const query = await userBaru.save();
 
     return query;
@@ -34,7 +35,7 @@ export default class Users {
     return query;
   }
 
-  async edit() {
+  async edit(_id, data) {
     const query = await this.service.findByIdAndUpdate(
       _id,
       { $set: data },
@@ -46,6 +47,12 @@ export default class Users {
 
   async hapus(_id) {
     const query = await this.service.findByIdAndDelete(_id);
+
+    return query;
+  }
+
+  async hapusByIdSiswa(siswa) {
+    const query = await this.service.deleteOne({ siswa });
 
     return query;
   }

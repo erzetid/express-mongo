@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const siswaSchema = new mongoose.Schema({
-  username: String,
   nisn: String,
   nama: String,
   kelas: String
@@ -12,12 +11,15 @@ const siswaService = mongoose.model('siswas', siswaSchema);
 export default class Siswas {
   service = siswaService;
 
-  async simpan(username, nisn, nama, kelas) {
-    if (!this.service.getByNisn(nisn)) {
-      throw new Error('NISN sudah terdaftar!');
-    }
-    const siswaBaru = new this.service({ username, nisn, nama, kelas });
+  async simpan(nisn, nama, kelas) {
+    const siswaBaru = new this.service({ nisn, nama, kelas });
     const query = await siswaBaru.save();
+
+    return query;
+  }
+
+  async getById(_id) {
+    const query = await this.service.findById(_id);
 
     return query;
   }
@@ -44,7 +46,7 @@ export default class Siswas {
     return query;
   }
 
-  async lihatSemua() {
+  async getAll() {
     const query = await this.service.find();
 
     return query;

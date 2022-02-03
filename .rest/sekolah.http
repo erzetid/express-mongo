@@ -7,7 +7,7 @@ PUT http://localhost:3660/sekolah
 Content-Type: application/json
 
 {
-    "_id": "61fb9256fededec3df5f1f98",
+    "_id": "61fbc3785090ea95b95f90c6",
     "data": {
         "namaSekolah": "SMK Maarif NU 01 Wanasari",
         "email": "smk@gmail.com",
