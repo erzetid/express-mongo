@@ -4,9 +4,42 @@ GET http://localhost:3660/soal
 
 ###GET by id
 
-GET http://localhost:3660/soal/61fbc959238ac624ac601621
+GET http://localhost:3660/soal/61fd5c898f9a6573e15a2342
 
 ### Post
+
+PUT http://localhost:3660/soal/butir
+Content-Type: application/json
+
+{
+    "soal": "Siapakah saya?",
+    "opsi": [
+        {
+        "opsi": "Keren",
+        "_id": "61fd5c898f9a6573e15a2344"
+        },
+        {
+        "opsi": "Ganteng",
+        "_id": "61fd5c898f9a6573e15a2345"
+        },
+        {
+        "opsi": "Wagu",
+        "_id": "61fd5c898f9a6573e15a2346"
+        },
+        {
+        "opsi": "Bagus",
+        "_id": "61fd5c898f9a6573e15a2347"
+        },
+        {
+        "opsi": "Culun",
+        "_id": "61fd5c898f9a6573e15a2348"
+        }
+    ],
+    "jawaban": "61fd5c898f9a6573e15a2348",
+    "_id": "61fd5c898f9a6573e15a2343"
+}
+
+### Put
 
 POST http://localhost:3660/soal
 Content-Type: application/json
@@ -19,4 +52,4 @@ Content-Type: application/json
 
 ### DELETE
 
-DELETE http://localhost:3660/soal/61fbc959238ac624ac601621
+DELETE http://localhost:3660/soal/61fd5c508f9a6573e15a215d

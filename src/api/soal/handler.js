@@ -95,4 +95,31 @@ export default class SoalHandler extends BaseHandler {
       });
     }
   }
+  async editButirSoal(req, res, _next) {
+    try {
+      const { _id: idButir, soal: isiSoal, jawaban, opsi } = req.body;
+      await soal.editButirSoal(idButir, isiSoal);
+      await soal.editJawabanSoal(idButir, jawaban);
+      const data = await Promise.all(
+        opsi.map(async (item) => {
+          const { opsi, _id } = item;
+          await soal.editOpsi(_id, opsi);
+
+          return { _id, opsi };
+        })
+      );
+
+      console.log(data);
+      return super.render(res, 200, {
+        status: 'success',
+        message: 'Soal berhasil disimpan!'
+      });
+    } catch (error) {
+      console.log(error);
+      return super.render(res, 500, {
+        status: 'error',
+        message: 'Mohon maaf, kesalahan server!'
+      });
+    }
+  }
 }

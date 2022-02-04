@@ -61,6 +61,14 @@ export default class AuthHandler extends BaseHandler {
   async resetHandler(req, res, _next) {
     try {
       const siswa = req.params.siswa;
+
+      const checkLog = await authLog.cekMasuk(siswa);
+      if (!checkLog.length) {
+        return super.render(res, 400, {
+          status: 'error',
+          message: `Siswa belum login!`
+        });
+      }
       const reset = await authLog.keluar(siswa);
       console.log(reset);
       return super.render(res, 200, {
